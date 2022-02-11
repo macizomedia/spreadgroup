@@ -11,9 +11,11 @@ import {
   PaginationSeparator,
 } from "@ajna/pagination";
 
+import { Dog } from "../types";
+
 const fetchDogs = async (pageSize: number, offset: number): Promise<any> => {
   return await fetch(
-    `https://api.thedogapi.com/v1/images/search?limit=${pageSize}&page=${offset}&order=Desc`,
+    `https://api.thedogapi.com/v1/images/search?limit=${pageSize}&page=${10}&order=Desc`,
     {
       method: "get",
       headers: new Headers({
@@ -26,7 +28,7 @@ const fetchDogs = async (pageSize: number, offset: number): Promise<any> => {
 const Full: FC = () => {
   // states
   const [dogsTotal, setDogsTotal] = useState<number | undefined>(undefined);
-  const [dogs, setDogs] = useState<any[]>([]);
+  const [dogs, setDogs] = useState<Dog[]>([]);
 
   // constants
   const outerLimit = 2;
@@ -177,11 +179,15 @@ const Full: FC = () => {
         templateColumns="repeat(5, 1fr)"
         templateRows="repeat(2, 1fr)"
       >
-        {dogs?.map(({ id, url }) => (
-          <Center key={id} bg="green.100" p={4}>
-            <img src={url} alt={id} />
-          </Center>
-        ))}
+        {dogs ? (
+          dogs?.map(({ id, url }) => (
+            <Center key={id} p={4}>
+              <img src={url} alt={id} />
+            </Center>
+          ))
+        ) : (
+          <h2>Loading...</h2>
+        )}
       </Grid>
     </Stack>
   );
