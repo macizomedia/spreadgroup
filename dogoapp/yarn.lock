@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@ajna/pagination@^1.4.13":
+  version "1.4.13"
+  resolved "https://registry.yarnpkg.com/@ajna/pagination/-/pagination-1.4.13.tgz#47d99eebd779a4a23aca714a297e3ae3cd6ed484"
+  integrity sha512-sEG1oIT8aYevMc2YJ1grihKb/PHykWAby/oVt1aUZntQwAQishyhdyPOAmRbx58KQS+nkqXRmPLp2CYi0FMJgA==
+  dependencies:
+    lodash.union "^4.6.0"
+
 "@ampproject/remapping@^2.0.0":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@ampproject/remapping/-/remapping-2.1.1.tgz#7922fb0817bf3166d8d9e258c57477e3fd1c3610"
@@ -6552,6 +6559,11 @@ lodash.sortby@^4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
   integrity sha1-7dFMgk4sycHgsKG0K7UhBRakJDg=
+
+lodash.union@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.union/-/lodash.union-4.6.0.tgz#48bb5088409f16f1821666641c44dd1aaae3cd88"
+  integrity sha1-SLtQiECfFvGCFmZkHETdGqrjzYg=
 
 lodash.uniq@^4.5.0:
   version "4.5.0"
