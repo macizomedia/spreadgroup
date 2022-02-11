@@ -75,8 +75,8 @@ const DetailsPage: FC<DogsProps> = ({ dogs }) => {
         gap={gap}
         mt={20}
         px={20}
-        templateColumns={[`repeat(${dogs.length}, 1fr)`, "1fr", "1fr"]}
-        templateRows={[`repeat(${dogs.length / 5}, 1fr)`, "1fr", "1fr"]}
+        templateColumns={[`repeat(5, 1fr)`, "1fr", "1fr", `repeat(5, 1fr)`]}
+        templateRows={[`repeat(5, 1fr)`, "1fr", "1fr", `repeat(3, 1fr)`]}
       >
         {dogs.map((dog) => (
           <Center key={dog.id} p={4}>
