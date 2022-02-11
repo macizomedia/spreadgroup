@@ -10,7 +10,7 @@ export const App = () => (
         <ColorModeSwitcher justifySelf="flex-end" />
         <VStack spacing={8}>
           <h1>DogoApp</h1>
-          <ItemPage />
+          <ItemPage></ItemPage>
         </VStack>
       </Grid>
     </Box>

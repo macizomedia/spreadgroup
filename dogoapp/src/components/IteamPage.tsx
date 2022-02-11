@@ -12,6 +12,7 @@ import {
 } from "@ajna/pagination";
 
 import { Dog } from "../types";
+import DetailsPage from "./DetailsPage";
 
 const fetchDogs = async (pageSize: number, offset: number): Promise<any> => {
   return await fetch(
@@ -180,11 +181,7 @@ const Full: FC = () => {
         templateRows="repeat(2, 1fr)"
       >
         {dogs ? (
-          dogs?.map(({ id, url }) => (
-            <Center key={id} p={4}>
-              <img src={url} alt={id} />
-            </Center>
-          ))
+          <DetailsPage dogs={dogs}></DetailsPage>
         ) : (
           <h2>Loading...</h2>
         )}
