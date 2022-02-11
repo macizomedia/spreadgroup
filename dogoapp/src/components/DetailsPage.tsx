@@ -1,4 +1,5 @@
 import { Badge, Box, Center, Grid, Image } from "@chakra-ui/react";
+import { useBreakpointValue } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { Dog, Breed } from "../types";
 
@@ -67,14 +68,15 @@ const Card: FC<Dog> = ({ id, url, breeds }) => {
 };
 
 const DetailsPage: FC<DogsProps> = ({ dogs }) => {
+  const gap = useBreakpointValue({ base: 3, md: 2 });
   return (
     <div>
       <Grid
-        gap={3}
+        gap={gap}
         mt={20}
         px={20}
-        templateColumns="repeat(5, 1fr)"
-        templateRows="repeat(2, 1fr)"
+        templateColumns={[`repeat(${dogs.length}, 1fr)`, "1fr", "1fr"]}
+        templateRows={[`repeat(${dogs.length / 5}, 1fr)`, "1fr", "1fr"]}
       >
         {dogs.map((dog) => (
           <Center key={dog.id} p={4}>
