@@ -1,6 +1,7 @@
 import { Box, Center, Grid, Image } from "@chakra-ui/react";
 import { useBreakpointValue } from "@chakra-ui/react";
 import React, { FC } from "react";
+import { NavLink } from "react-router-dom";
 import { Dog, Breed } from "../types";
 
 interface DogsProps {
@@ -51,34 +52,48 @@ const DetailsBreed: FC<Breed> = ({
 
 const Card: FC<Dog> = ({ id, url, breeds }) => {
   return (
-    <Box
-      key={id}
-      minW="300px"
-      borderWidth="1px"
-      borderRadius="lg"
-      overflow="hidden"
-      _hover={{
-        opacity: 0.6,
-        cursor: "pointer",
-        transform: "scale(1.05)",
-        transition: "all 0.2s",
+    <NavLink
+      style={({ isActive }) => {
+        return {
+          display: "block",
+          margin: "1rem 0",
+          color: isActive ? "red" : "",
+        };
       }}
+      to={breeds.length > 0 ? `/breeds/${breeds[0].name}` : ""}
+      key={id}
     >
-      <Image src={url} alt={id} />
-      <Box p="6">
-        {breeds.length > 0 ? (
-          breeds.map((breed: Breed) => (
-            <DetailsBreed key={id} {...breed}></DetailsBreed>
-          ))
-        ) : (
-          <h6>Good Boy</h6>
-        )}
+      <Box
+        key={id}
+        minW="300px"
+        borderWidth="1px"
+        borderRadius="lg"
+        overflow="hidden"
+        _hover={{
+          opacity: 0.8,
+          borderWidth: "4px",
+          borderColor: "teal.500",
+          cursor: "pointer",
+          transform: "scale(1.05)",
+          transition: "all 0.2s",
+        }}
+      >
+        <Image src={url} alt={id} />
+        <Box p="6">
+          {breeds.length > 0 ? (
+            breeds.map((breed: Breed) => (
+              <DetailsBreed key={id} {...breed}></DetailsBreed>
+            ))
+          ) : (
+            <h6>Good Boy</h6>
+          )}
+        </Box>
       </Box>
-    </Box>
+    </NavLink>
   );
 };
 
-const DetailsPage: FC<DogsProps> = ({ dogs }) => {
+const CollectionGrid: FC<DogsProps> = ({ dogs }) => {
   const gap = useBreakpointValue({ base: 3, md: 2 });
   return (
     <Center>
@@ -106,4 +121,4 @@ const DetailsPage: FC<DogsProps> = ({ dogs }) => {
   );
 };
 
-export default DetailsPage;
+export default CollectionGrid;

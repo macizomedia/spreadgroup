@@ -12,7 +12,7 @@ import {
 } from "@ajna/pagination";
 
 import { Dog } from "../types";
-import DetailsPage from "./DetailsPage";
+import DetailsPage from "./CollectionGrid";
 
 import { getDogs } from "../main";
 

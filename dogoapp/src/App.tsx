@@ -1,7 +1,8 @@
 import * as React from "react";
 import { ChakraProvider, Box, VStack, Grid, theme } from "@chakra-ui/react";
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
-import ItemPage from "./components/IteamPage";
+import Main from "./components/MainGrid";
+import { SingleCard } from "./components/SingleCard";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { Routes, Route } from "react-router-dom";
 
@@ -14,7 +15,16 @@ export const App = () => (
           <h1>DogoApp</h1>
           <ErrorBoundary>
             <Routes>
-              <Route path="/" element={<ItemPage />} />
+              <Route path="/" element={<Main />} />
+              <Route path="/breeds/:breed" element={<SingleCard />} />
+              <Route
+                path="*"
+                element={
+                  <main style={{ padding: "1rem" }}>
+                    <p>There's nothing here!</p>
+                  </main>
+                }
+              />
             </Routes>
           </ErrorBoundary>
         </VStack>
