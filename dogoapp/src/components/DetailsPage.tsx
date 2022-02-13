@@ -70,13 +70,20 @@ const Card: FC<Dog> = ({ id, url, breeds }) => {
 const DetailsPage: FC<DogsProps> = ({ dogs }) => {
   const gap = useBreakpointValue({ base: 3, md: 2 });
   return (
-    <div>
+    <Center>
       <Grid
         gap={gap}
         mt={20}
         px={20}
-        templateColumns={[`repeat(5, 1fr)`, "1fr", "1fr", `repeat(5, 1fr)`]}
-        templateRows={[`repeat(5, 1fr)`, "1fr", "1fr", `repeat(3, 1fr)`]}
+        gridAutoFlow="dense"
+        templateColumns={[
+          `1fr`,
+          "1fr",
+          `repeat(2, 1fr)`,
+          `repeat(3, 1fr)`,
+          `repeat(auto-fill, minmax(400px, 1fr))`
+        ]}
+        templateRows={[`repeat(5, 1fr)`, "1fr", "1fr", `repeat(3, 1fr)`, `1fr`]}
       >
         {dogs.map((dog) => (
           <Center key={dog.id} p={4}>
@@ -84,7 +91,7 @@ const DetailsPage: FC<DogsProps> = ({ dogs }) => {
           </Center>
         ))}
       </Grid>
-    </div>
+    </Center>
   );
 };
 

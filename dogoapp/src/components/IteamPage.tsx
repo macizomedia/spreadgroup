@@ -14,9 +14,16 @@ import {
 import { Dog } from "../types";
 import DetailsPage from "./DetailsPage";
 
+import { getDogs } from "../main";
+
+const queryDogs = async (page: number, limit: number) => {
+  const dogs = getDogs(`?limit=${limit}&page=${page}&order=Desc`);
+  return dogs;
+};
+
 const fetchDogs = async (pageSize: number, offset: number): Promise<any> => {
   return await fetch(
-    `https://api.thedogapi.com/v1/images/search?limit=${pageSize}&page=${10}&order=Desc`,
+    `https://api.thedogapi.com/v1/images/search?limit=${pageSize}&page=${offset}&order=Desc`,
     {
       method: "get",
       headers: new Headers({
@@ -61,19 +68,34 @@ const Full: FC = () => {
 
   // effects
   useEffect(() => {
-    fetchDogs(pageSize, offset)
+    /* fetchDogs(pageSize, offset)
       .then((dogs) => {
         console.log(dogs);
-        setDogsTotal(dogs.count);
+        setDogsTotal(100);
         setDogs(dogs);
       })
-      .catch((error) => console.error("App =>", error));
+      .catch((error) => console.error("App =>", error)); */
+    if (currentPage === 1 || pageSize) {
+      queryDogs(currentPage, pageSize).then((data) => {
+        data.subscribe((dogs) => {
+          console.log(dogs);
+          setDogsTotal(100);
+          setDogs(dogs);
+        });
+      });
+    }
   }, [currentPage, pageSize, offset]);
 
   // handlers
   const handlePageChange = (nextPage: number): void => {
     // -> request new data using the page number
     setCurrentPage(nextPage);
+    queryDogs(nextPage, pageSize).then((dogs) =>
+      dogs.subscribe((dogs) => {
+        setDogsTotal(100);
+        setDogs(dogs);
+      })
+    );
     console.log("request new data with ->", nextPage);
   };
 
@@ -90,7 +112,7 @@ const Full: FC = () => {
   };
 
   return (
-    <Stack>
+    <Stack maxW={"90vw"}>
       <Pagination
         pagesCount={pagesCount}
         currentPage={currentPage}
@@ -173,19 +195,8 @@ const Full: FC = () => {
           <option value="50">50</option>
         </Select>
       </Center>
-      <Grid
-        gap={3}
-        mt={20}
-        px={20}
-        templateColumns="repeat(5, 1fr)"
-        templateRows="repeat(2, 1fr)"
-      >
-        {dogs ? (
-          <DetailsPage dogs={dogs}></DetailsPage>
-        ) : (
-          <h2>Loading...</h2>
-        )}
-      </Grid>
+
+      {dogs ? <DetailsPage dogs={dogs}></DetailsPage> : <h2>Loading...</h2>}
     </Stack>
   );
 };
