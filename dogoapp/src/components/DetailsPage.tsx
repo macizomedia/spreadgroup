@@ -1,4 +1,4 @@
-import { Badge, Box, Center, Grid, Image } from "@chakra-ui/react";
+import { Box, Center, Grid, Image } from "@chakra-ui/react";
 import { useBreakpointValue } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { Dog, Breed } from "../types";
@@ -7,13 +7,18 @@ interface DogsProps {
   dogs: Dog[];
 }
 
-const DetailsBreed: FC<Breed> = ({ name, bred_for, temperament }) => {
+const DetailsBreed: FC<Breed> = ({
+  name,
+  bred_for,
+  temperament,
+  life_span,
+}) => {
   return (
     <Box p="6">
       <Box display="flex" alignItems="baseline">
-        <Badge borderRadius="full" px="2" colorScheme="teal">
+        {/*  <Badge borderRadius="full" px="2" colorScheme="teal">
           New
-        </Badge>
+        </Badge> */}
         <Box
           color="gray.500"
           fontWeight="semibold"
@@ -24,22 +29,22 @@ const DetailsBreed: FC<Breed> = ({ name, bred_for, temperament }) => {
         ></Box>
       </Box>
 
-      <Box mt="1" fontWeight="semibold" as="h4" lineHeight="tight" isTruncated>
+      <Box mt="1" fontWeight="semibold" as="h2" lineHeight="tight" isTruncated>
         {name}
       </Box>
-
       <Box>
-        {bred_for}
-        <Box as="span" color="gray.600" fontSize="sm">
-          / wk
+        <Box as="span" color="gray.400" fontSize="sm">
+          <h6>{`Life Span: ${life_span}`}</h6>
         </Box>
       </Box>
-
       <Box display="flex" mt="2" alignItems="center">
         <Box as="span" ml="2" color="gray.600" fontSize="sm">
           {temperament}
         </Box>
       </Box>
+      <p>
+        <small>{bred_for}</small>
+      </p>
     </Box>
   );
 };
@@ -48,10 +53,16 @@ const Card: FC<Dog> = ({ id, url, breeds }) => {
   return (
     <Box
       key={id}
-      minW="200px"
+      minW="300px"
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
+      _hover={{
+        opacity: 0.6,
+        cursor: "pointer",
+        transform: "scale(1.05)",
+        transition: "all 0.2s",
+      }}
     >
       <Image src={url} alt={id} />
       <Box p="6">
@@ -81,7 +92,7 @@ const DetailsPage: FC<DogsProps> = ({ dogs }) => {
           "1fr",
           `repeat(2, 1fr)`,
           `repeat(3, 1fr)`,
-          `repeat(auto-fill, minmax(400px, 1fr))`
+          `repeat(auto-fill, minmax(400px, 1fr))`,
         ]}
         templateRows={[`repeat(5, 1fr)`, "1fr", "1fr", `repeat(3, 1fr)`, `1fr`]}
       >

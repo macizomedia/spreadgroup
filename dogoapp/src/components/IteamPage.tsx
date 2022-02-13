@@ -1,5 +1,5 @@
 import React, { FC, ChangeEvent, useEffect, useState } from "react";
-import { Grid, Center, Select, Text, Button, Stack } from "@chakra-ui/react";
+import { Center, Select, Text, Button, Stack } from "@chakra-ui/react";
 import {
   Pagination,
   usePagination,
@@ -21,7 +21,7 @@ const queryDogs = async (page: number, limit: number) => {
   return dogs;
 };
 
-const fetchDogs = async (pageSize: number, offset: number): Promise<any> => {
+/* const fetchDogs = async (pageSize: number, offset: number): Promise<any> => {
   return await fetch(
     `https://api.thedogapi.com/v1/images/search?limit=${pageSize}&page=${offset}&order=Desc`,
     {
@@ -31,7 +31,7 @@ const fetchDogs = async (pageSize: number, offset: number): Promise<any> => {
       }),
     }
   ).then(async (res) => await res.json());
-};
+}; */
 
 const Full: FC = () => {
   // states
@@ -60,12 +60,13 @@ const Full: FC = () => {
       inner: innerLimit,
     },
     initialState: {
-      pageSize: 5,
+      pageSize: 10,
       isDisabled: false,
       currentPage: 1,
     },
   });
 
+  // fetch dogs
   // effects
   useEffect(() => {
     /* fetchDogs(pageSize, offset)
@@ -96,7 +97,6 @@ const Full: FC = () => {
         setDogs(dogs);
       })
     );
-    console.log("request new data with ->", nextPage);
   };
 
   const handlePageSizeChange = (
@@ -130,7 +130,6 @@ const Full: FC = () => {
               bg: "yellow.400",
             }}
             bg="yellow.300"
-            isDisabled
             onClick={() => console.warn("I'm clicking the previous")}
           >
             <Text>Previous</Text>
