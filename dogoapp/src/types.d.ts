@@ -12,6 +12,9 @@ export interface Breed {
   weight: Weight;
   height: Height;
   id: number;
+  image?: {
+    url: string;
+  };
   name: string;
   bred_for: string;
   breed_group: string;

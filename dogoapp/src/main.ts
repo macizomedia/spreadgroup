@@ -1,7 +1,12 @@
 import { of } from "rxjs";
 import { fromFetch } from "rxjs/fetch";
+import { createApi } from "unsplash-js";
+/* import nodeFetch from "node-fetch"; */
 import { switchMap, catchError } from "rxjs/operators";
 
+const unsplash = createApi({
+  accessKey: "7Ia8dL8h1dD2yr6pR_d49RHaFO-KxM-xyMnYaOP_-VM",
+});
 const API = "https://api.thedogapi.com/v1/";
 
 const dogs = (endpoint: string) => (query: string) =>
@@ -20,102 +25,53 @@ const dogs = (endpoint: string) => (query: string) =>
   );
 
 export const getDogs = dogs("images/search");
+export const getDogsBreeds = dogs("breeds");
 
-/* 
-let name = countries('name')
-let capital = countries('capital')
-let language = countries('lang')
+export const fetchImages = async (name: any) => {
+  const result = await unsplash.search.getPhotos({
+    query: name,
+    page: 1,
+    perPage: 6,
+  });
+  const firstPhoto = result.response!.results[0];
 
-search$.pipe(
-    pluck('target', 'value'),
-    filter((searchTerm: string) => searchTerm.length > 2),
-    debounceTime(1000),
-    distinctUntilChanged(),
-    mergeMap((value) => name(value as string)),
-    mergeMap((country) => of(...country)),
-    tap((data) => console.log(Object.entries(data))),
-    mergeScan((acc, { name, capital, currencies, languages, population, timezones }: Country) =>
-        of({
-            ...acc, ...{
-                name,
-                capital,
-                currencies,
-                languages,
-                population,
-                timezones
-            }
-        }), {}),
-    tap(value => printAll(value as Country[]))
-).subscribe()
- */
+  return firstPhoto;
+};
 
-/* 
-const countrie$ = fromFetch('https://restcountries.com/v3.1/all').pipe(switchMap(response => {
-    if (response.ok) {
-        return response.json();
-    } else {
-        return of({ error: true, message: `Error ${response.status}` });
-    }
-}),
-    catchError(err => {
-        console.error(err);
-        return of({ error: true, message: err.message })
-    }));
-    countrie$.subscribe({
-        next: result => result.forEach((element: { name: any; }) => {
-            console.log(element.name)
-        }),
-        complete: () => console.log('done')
+export const searchImg = (query: any, color: any) => {
+  unsplash.search
+    .getPhotos({
+      query: query,
+      page: 1,
+      perPage: 10,
+      color: color,
+      orientation: "portrait",
+    })
+    .then((result) => {
+      switch (result.type) {
+        case "error":
+          console.log("error occurred: ", result.errors[0]);
+          break;
+        case "success":
+          const photo = result.response;
+          console.log(photo);
+          return photo;
+
+        default:
+          break;
+      }
     });
-    function requestData(url: string, mapFunc: (arg0: any) => Observable) {
-        console.log(url)
-    const xhr = new XMLHttpRequest();
-    return from(new Promise<string>((resolve, reject) => {
-        
-        // This is generating a random size for a placekitten image
-        //   so that we get new cats each request.
-        const w = Math.round(Math.random() * 400);
-        const h = Math.round(Math.random() * 400);
-        const targetUrl = url
-        .replace('{w}', w.toString())
-        .replace('{h}', h.toString());
+};
 
-        xhr.addEventListener("load", () => {
-            resolve(xhr.response);
-        });
-        xhr.open("GET", targetUrl);
-        /* if (requestCategory === 'cats') {
-            // Our cats urls return binary payloads
-            //  so we need to respond as such.
-            xhr.responseType = "arraybuffer";
-        }
-        xhr.send();
-    }))
-        .pipe(
-            switchMap(async (data) => mapFunc(xhr.response)),
-            tap((data) => console.log('Request result: ', data))
-            );
-        }
-/* 
-async function searchWiki(term: string | number | boolean) {
-    var url = 'http://en.wikipedia.org/w/api.php? action=opensearch&format=json&search=' + encodeURIComponent(term) + '&callback=?';
-    const response = await fetch(url)
-    const data = await response.json()
-    console.log(data)
-    return data
-}
-
-countrie$.pipe(map(x => x.map((y: Country) => y)), concatAll(), pluck('capital'))
-countrie$.pipe(map(x => x.map((y: Country) => y)), mergeMap((country) => of(...country)), pluck('name', 'common')) */
-
-/* var customCountry = countrie$.pipe(map(arr => arr.map((object: Country) => object)),
-    mergeMap((country) => of(...country)),
-    mergeScan((acc, { name, capital, currencies }: Country) =>
-        of({
-            ...acc, ...{
-                name,
-                capital,
-                currencies
-            }
-        }), {}),
-    pluck('name', 'common')) */
+export const image$ = (query: any, color: any) => {
+  return fromFetch(
+    `https://api.unsplash.com/search/photos?client_id=7Ia8dL8h1dD2yr6pR_d49RHaFO-KxM-xyMnYaOP_-VM&query=${query}&color=${color}&orientation=portrait
+    `
+  ).pipe(
+    switchMap((response) => response.json()),
+    catchError((err) => {
+      console.error(err);
+      return of({ error: true, message: err.message });
+    })
+  );
+};

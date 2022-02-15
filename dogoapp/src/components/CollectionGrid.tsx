@@ -60,7 +60,11 @@ const Card: FC<Dog> = ({ id, url, breeds }) => {
           color: isActive ? "red" : "",
         };
       }}
-      to={breeds.length > 0 ? `/breeds/${breeds[0].name}` : ""}
+      to={
+        breeds.length > 0
+          ? `/breeds/${breeds[0].name.replace(/\s/g, "").toLowerCase()}`
+          : ""
+      }
       key={id}
     >
       <Box

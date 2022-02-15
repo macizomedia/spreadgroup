@@ -5,6 +5,7 @@ import Main from "./components/MainGrid";
 import { SingleCard } from "./components/SingleCard";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { Routes, Route } from "react-router-dom";
+import MainGridBreeds from "./components/MainGridBreeds";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -16,6 +17,7 @@ export const App = () => (
           <ErrorBoundary>
             <Routes>
               <Route path="/" element={<Main />} />
+              <Route path="/breeds" element={<MainGridBreeds />} />
               <Route path="/breeds/:breed" element={<SingleCard />} />
               <Route
                 path="*"
