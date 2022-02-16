@@ -1,13 +1,14 @@
 import {
   Box,
-  Text,
   Center,
   Grid,
   Image,
-  Link,
+  Text,
+  Heading,
   VStack,
   Button,
 } from "@chakra-ui/react";
+
 import { useBreakpointValue } from "@chakra-ui/react";
 import React, { FC, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -19,42 +20,21 @@ interface DogsProps {
 
 const DetailsBreed: FC<Breed> = ({
   name,
-  bred_for,
   temperament,
   life_span,
 }) => {
   return (
     <Box p="6">
       <Box display="flex" alignItems="baseline">
-        {/*  <Badge borderRadius="full" px="2" colorScheme="teal">
-          New
-        </Badge> */}
-        <Box
-          color="gray.500"
-          fontWeight="semibold"
-          letterSpacing="wide"
-          fontSize="xs"
-          textTransform="uppercase"
-          ml="2"
-        ></Box>
-      </Box>
-
-      <Box mt="1" fontWeight="semibold" as="h2" lineHeight="tight" isTruncated>
-        {name}
-      </Box>
-      <Box>
-        <Box as="span" color="gray.400" fontSize="sm">
-          <h6>{`Life Span: ${life_span}`}</h6>
+        <Box flexGrow={1}>
+          <Heading fontSize="xl">{name}</Heading>
+          <Text fontSize="lg">{temperament}</Text>
+          <Text fontSize="lg">
+            <strong>Life Span: </strong>
+            {life_span}
+          </Text>
         </Box>
       </Box>
-      <Box display="flex" mt="2" alignItems="center">
-        <Box as="span" ml="2" color="gray.600" fontSize="sm">
-          {temperament}
-        </Box>
-      </Box>
-      <p>
-        <small>{bred_for}</small>
-      </p>
     </Box>
   );
 };
@@ -115,27 +95,32 @@ const CollectionGrid: FC<DogsProps> = ({ dogs }) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", 
+    });
+  };
   return (
     <Center>
       <VStack spacing={gap} w="100%" maxW="1200px" mx="auto" px="6">
         <Grid
-          gap={gap}
           mt={20}
           px={20}
-          gridAutoFlow="dense"
+          gridAutoFlow="row dense"
           templateColumns={[
             `1fr`,
             "1fr",
             `repeat(2, 1fr)`,
-            `repeat(auto-fill, minmax(700px, 1fr))`,
-            `repeat(auto-fill, minmax(400px, 1fr))`,
+            `repeat(auto-fill, minmax(300px, 1fr))`,
+            `repeat( auto-fit, minmax(400px, 1fr))`,
           ]}
           templateRows={[
             `repeat(5, 1fr)`,
             "1fr",
             "1fr",
-            `repeat(auto-fill, minmax(500px, 1fr))`,
-            `repeat(auto-fill, minmax(400px, 1fr))`,
+            `repeat(auto-fill, minmax(300px, 1fr))`,
+            `repeat( auto-fit, minmax(350px, 1fr)`,
           ]}
         >
           {dogs.map((dog) => (
@@ -145,18 +130,16 @@ const CollectionGrid: FC<DogsProps> = ({ dogs }) => {
           ))}
         </Grid>
         {scrollPosition > 500 && (
-          <Link href="/#top">
             <Box
               position="fixed"
               bottom="20px"
               right={["16px", "84px"]}
               zIndex={1}
             >
-              <Button>
+              <Button onClick={scrollToTop}>
                 <strong>Back to top</strong>
               </Button>
             </Box>
-          </Link>
         )}
       </VStack>
     </Center>

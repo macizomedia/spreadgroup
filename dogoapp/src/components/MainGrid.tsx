@@ -33,7 +33,7 @@ const queryDogs = async (page: number, limit: number) => {
   ).then(async (res) => await res.json());
 }; */
 
-const Full: FC = () => {
+const MainGrid: FC = () => {
   // states
   const [dogsTotal, setDogsTotal] = useState<number | undefined>(undefined);
   const [dogs, setDogs] = useState<Dog[]>([]);
@@ -200,4 +200,4 @@ const Full: FC = () => {
   );
 };
 
-export default Full;
+export default MainGrid;

@@ -2,23 +2,24 @@ import React, { useEffect, useState } from "react";
 import { Breed } from "../types";
 import {
   Box,
-  Heading,
   Flex,
   HStack,
   Spacer,
   Button,
   Center,
   useBreakpointValue,
+  Input,
 } from "@chakra-ui/react";
 import { getDogsBreeds } from "../main";
 import { SingleCard } from "./SingleCard";
+import { debounceTime, distinctUntilChanged, map } from "rxjs";
 
 const data = getDogsBreeds("");
 
 const MainGridBreeds = () => {
   const [breedsList, setBreedsList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = React.useState(10);
+  const [postsPerPage] = useState(10);
 
   const isSmall = useBreakpointValue({ base: true, md: true, lg: false });
 
@@ -28,28 +29,38 @@ const MainGridBreeds = () => {
 
   const pageNumber = [];
 
-  const totalPageCount = Math.ceil(breedsList.length / postsPerPage);
-
   for (let i = 1; i <= Math.ceil(breedsList.length / postsPerPage); i++) {
     pageNumber.push(i);
   }
 
   useEffect(() => {
     data.subscribe(setBreedsList);
-    data.subscribe((breeds) => {
-      console.log(breeds);
-    });
   }, []);
   return (
     <Center margin={"2rem"} p="2rem">
       <Box>
-        <Heading as="h1" size="lg" mt="4">
-          By Breeds
-        </Heading>
+        <Input
+          maxW="40vw"
+          placeholder="Search"
+          onChange={(e) => {
+            data
+              .pipe(
+                distinctUntilChanged(),
+                debounceTime(200),
+                map((breeds) =>
+                  breeds.filter((breed: { name: string | string[] }) =>
+                    breed.name.toString().toLowerCase().includes(e.target.value)
+                  )
+                )
+              )
+              .subscribe(setBreedsList);
+          }}
+        />
         <Flex
           flexWrap="wrap"
           justifyContent="space-between"
           alignItems="center"
+          maxWidth="80vw"
           mt="4"
           mb={4}
         >
@@ -75,9 +86,7 @@ const MainGridBreeds = () => {
                   </Button>
                 ))
               ) : (
-                <Button border="indigo">
-                  {currentPage}
-                </Button>
+                <Button border="indigo">{currentPage}</Button>
               )}
             </HStack>
             <Button onClick={() => setCurrentPage(currentPage + 1)}>

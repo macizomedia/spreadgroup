@@ -10,6 +10,7 @@ export const SingleCard = ({ id, name, image, bred_for }: Breed) => {
       as={NavLink}
       to={`/breeds/${id}`}
       p="2"
+      m="1.5"
       flexBasis="[30%, 40%, 50%, 60%]"
       flexGrow="[1, 1, 1, 0]"
       maxW="300px"
@@ -25,7 +26,7 @@ export const SingleCard = ({ id, name, image, bred_for }: Breed) => {
         transition: "all 0.3s",
       }}
     >
-      <Image borderWidth="1px" borderRadius="lg" src={image!.url} alt={name} />
+      <Image borderWidth="1px" borderRadius="lg" objectFit="scale-down" src={image!.url} alt={name} />
       <Box p="6">
         <Heading as="h3" size="md" mt="2">
           {name}
