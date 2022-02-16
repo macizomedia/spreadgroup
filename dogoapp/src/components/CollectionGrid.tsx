@@ -1,6 +1,15 @@
-import { Box, Center, Grid, Image } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Center,
+  Grid,
+  Image,
+  Link,
+  VStack,
+  Button,
+} from "@chakra-ui/react";
 import { useBreakpointValue } from "@chakra-ui/react";
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Dog, Breed } from "../types";
 
@@ -60,16 +69,12 @@ const Card: FC<Dog> = ({ id, url, breeds }) => {
           color: isActive ? "red" : "",
         };
       }}
-      to={
-        breeds.length > 0
-          ? `/breeds/${breeds[0].name.replace(/\s/g, "").toLowerCase()}`
-          : ""
-      }
+      to={breeds.length > 0 ? `/breeds` : "/breeds/" + 1}
       key={id}
     >
       <Box
         key={id}
-        minW="300px"
+        minW={`${breeds.length > 0 ? "300px" : "200px"}`}
         borderWidth="1px"
         borderRadius="lg"
         overflow="hidden"
@@ -83,14 +88,12 @@ const Card: FC<Dog> = ({ id, url, breeds }) => {
         }}
       >
         <Image src={url} alt={id} />
-        <Box p="6">
-          {breeds.length > 0 ? (
-            breeds.map((breed: Breed) => (
-              <DetailsBreed key={id} {...breed}></DetailsBreed>
-            ))
-          ) : (
-            <h6>Good Boy</h6>
-          )}
+        <Box display={`${breeds.length > 0 ? "block" : "none"}`} p="6">
+          {breeds.length > 0
+            ? breeds.map((breed: Breed) => (
+                <DetailsBreed key={id} {...breed}></DetailsBreed>
+              ))
+            : null}
         </Box>
       </Box>
     </NavLink>
@@ -98,29 +101,64 @@ const Card: FC<Dog> = ({ id, url, breeds }) => {
 };
 
 const CollectionGrid: FC<DogsProps> = ({ dogs }) => {
-  const gap = useBreakpointValue({ base: 3, md: 2 });
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const handleScroll = () => {
+    const position = window.pageYOffset;
+    setScrollPosition(position);
+  };
+
+  const gap = useBreakpointValue({ base: 3, md: 2, lg: 1, xl: 0 });
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
     <Center>
-      <Grid
-        gap={gap}
-        mt={20}
-        px={20}
-        gridAutoFlow="dense"
-        templateColumns={[
-          `1fr`,
-          "1fr",
-          `repeat(2, 1fr)`,
-          `repeat(3, 1fr)`,
-          `repeat(auto-fill, minmax(400px, 1fr))`,
-        ]}
-        templateRows={[`repeat(5, 1fr)`, "1fr", "1fr", `repeat(3, 1fr)`, `1fr`]}
-      >
-        {dogs.map((dog) => (
-          <Center key={dog.id} p={4}>
-            <Card {...dog} />
-          </Center>
-        ))}
-      </Grid>
+      <VStack spacing={gap} w="100%" maxW="1200px" mx="auto" px="6">
+        <Grid
+          gap={gap}
+          mt={20}
+          px={20}
+          gridAutoFlow="dense"
+          templateColumns={[
+            `1fr`,
+            "1fr",
+            `repeat(2, 1fr)`,
+            `repeat(auto-fill, minmax(700px, 1fr))`,
+            `repeat(auto-fill, minmax(400px, 1fr))`,
+          ]}
+          templateRows={[
+            `repeat(5, 1fr)`,
+            "1fr",
+            "1fr",
+            `repeat(auto-fill, minmax(500px, 1fr))`,
+            `repeat(auto-fill, minmax(400px, 1fr))`,
+          ]}
+        >
+          {dogs.map((dog) => (
+            <Center key={dog.id} p={4}>
+              <Card {...dog} />
+            </Center>
+          ))}
+        </Grid>
+        {scrollPosition > 500 && (
+          <Link href="/#top">
+            <Box
+              position="fixed"
+              bottom="20px"
+              right={["16px", "84px"]}
+              zIndex={1}
+            >
+              <Button>
+                <strong>Back to top</strong>
+              </Button>
+            </Box>
+          </Link>
+        )}
+      </VStack>
     </Center>
   );
 };

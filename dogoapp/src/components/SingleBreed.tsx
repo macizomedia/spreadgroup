@@ -1,37 +1,34 @@
 import React from "react";
 import { NavLink, useParams } from "react-router-dom";
-import { map } from "rxjs";
-import { getDogsBreeds } from "../main";
-
+import { useDogsCollection } from "../hooks/useDogsCollection";
 import { motion } from "framer-motion";
-import { Box, Flex, Heading, Stack, Text, Image } from "@chakra-ui/react";
-
-const collection = getDogsBreeds("");
+import {
+  Box,
+  Heading,
+  Stack,
+  Text,
+  Image,
+  Center,
+  Flex,
+  Badge,
+} from "@chakra-ui/react";
 
 const SingleBreed = () => {
+  const { id } = useParams();
+  const collection = useDogsCollection();
+  const [breed, setBreed] = React.useState<any>({});
+
   const variants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
   };
 
-  const { id } = useParams();
-  const [breed, setBreed] = React.useState<any>({});
-
   React.useEffect(() => {
-    collection
-      .pipe(
-        map((data) =>
-          data
-            .filter(
-              (breed: { id: number | undefined }) => breed.id === Number(id)
-            )
-            .pop()
-        )
-      )
-      .subscribe((data) => {
-        setBreed(data);
-      });
-  }, [id]);
+    const selected = collection
+      .filter((breed: { id: number | undefined }) => breed.id === Number(id))
+      .pop();
+    setBreed(selected);
+  }, [collection, id]);
 
   return (
     <motion.div
@@ -40,17 +37,12 @@ const SingleBreed = () => {
       variants={variants}
       transition={{ duration: 0.5 }}
       style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: "rgba(0, 0, 0, 0.5)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
       }}
     >
+      
       {breed !== undefined ? (
         <Stack>
           <Box
@@ -62,22 +54,25 @@ const SingleBreed = () => {
           >
             {breed.name}
           </Box>
-          <Box
-            as="h2"
-            fontSize="3xl"
-            fontWeight="bold"
-            color="white"
-            textAlign="center"
-            mt="4"
-          >
-            {breed.temperament}
-          </Box>
-          <Flex
-            flexWrap="wrap"
-            justifyContent="space-between"
-            alignItems="center"
-            mt="4"
-          >
+          <hr></hr>
+          <Flex maxW="600px" flexWrap="wrap">
+            {breed.temperament &&
+              breed.temperament.split(",").map((item: string) => (
+                <Badge
+                  borderRadius="5px"
+                  ml="1"
+                  p="0.3rem"
+                  m="0.5rem"
+                  fontSize="0.8em"
+                  colorScheme="blue"
+                  key={item}
+                >
+                  {item}
+                </Badge>
+              ))}
+          </Flex>
+
+          <Center>
             <Box
               key={breed.id}
               as={NavLink}
@@ -91,10 +86,10 @@ const SingleBreed = () => {
               overflow="hidden"
               _hover={{
                 opacity: 0.8,
-                borderWidth: "4px",
+                borderWidth: "1px",
                 borderColor: "teal.500",
                 cursor: "pointer",
-                transform: "scale(1.05)",
+                transform: "scale(0.95)",
                 transition: "all 0.2s",
               }}
             >
@@ -105,12 +100,22 @@ const SingleBreed = () => {
                 <Heading as="h3" size="md" mt="2">
                   {breed.name}
                 </Heading>
-                <Text>{breed.life_span}</Text>
                 <Text>{breed.group}</Text>
-                <Text>{breed.bred_for}</Text>
+                <Text>
+                  <strong>Life Span:</strong>
+                  {` ${breed.life_span}`}
+                </Text>
+                <Text>
+                  <strong>Weight:</strong>
+                  {` ${breed.weight ? breed.weight.metric + " kg" : "no data"}`}
+                </Text>
+                <Text>
+                  <strong>Heigth:</strong>
+                  {` ${breed.height ? breed.height.metric + " cm" : null}`}
+                </Text>
               </Box>
             </Box>
-          </Flex>
+          </Center>
         </Stack>
       ) : (
         <Box>Loading...</Box>
