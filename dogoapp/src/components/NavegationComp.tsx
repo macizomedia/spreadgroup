@@ -7,8 +7,8 @@ import Header from "./Header";
 const NavegationComp = () => {
   const location = useLocation();
   return (
-    <Flex>
-      <Box p="4">
+    <Flex as="nav" align="center" justify="space-between" wrap="wrap">
+      <Box>
         <NavLink
           to={
             location.pathname === "/breeds"
@@ -30,12 +30,12 @@ const NavegationComp = () => {
         </NavLink>
       </Box>
       <Spacer />
-      <Box p="4">
+      <Box display={["none", "none", "none", "flex"]}>
         <Header />
       </Box>
       <Spacer />
-      <Box p="4">
-        <ColorModeSwitcher justifySelf="flex-end" />
+      <Box>
+        <ColorModeSwitcher />
       </Box>
     </Flex>
   );

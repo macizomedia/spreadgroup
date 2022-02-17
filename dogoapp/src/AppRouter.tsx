@@ -42,9 +42,8 @@ const RouteList = [
 const AppRouter = () => {
   return (
     <Box textAlign="center" fontSize="xl">
-      <Grid minH="100vh" p={3}>
+      <Grid minH="100vh" px="5rem">
         <NavegationComp />
-        <hr></hr>
         <Routes>
           {RouteList.map(({ path, component }) => (
             <Route key={path} path={path} element={component} />
