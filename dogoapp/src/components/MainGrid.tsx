@@ -12,7 +12,7 @@ import {
 } from "@ajna/pagination";
 
 import { Dog } from "types";
-import DetailsPage from "./CollectionGrid";
+import CollectionGrid from "./CollectionGrid";
 
 import { getDogs } from "main";
 
@@ -175,7 +175,7 @@ const MainGrid: FC = () => {
         </Select>
       </Center>
 
-      {dogs ? <DetailsPage dogs={dogs}></DetailsPage> : <h2>Loading...</h2>}
+      {dogs ? <CollectionGrid dogs={dogs}></CollectionGrid> : <h2>Loading...</h2>}
     </Stack>
   );
 };
