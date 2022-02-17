@@ -11,10 +11,10 @@ import {
   PaginationSeparator,
 } from "@ajna/pagination";
 
-import { Dog } from "../types";
+import { Dog } from "types";
 import DetailsPage from "./CollectionGrid";
 
-import { getDogs } from "../main";
+import { getDogs } from "main";
 
 const queryDogs = async (page: number, limit: number) => {
   const dogs = getDogs(`?limit=${limit}&page=${page}&order=Desc`);

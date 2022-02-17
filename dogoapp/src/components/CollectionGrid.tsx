@@ -12,17 +12,13 @@ import {
 import { useBreakpointValue } from "@chakra-ui/react";
 import React, { FC, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Dog, Breed } from "../types";
+import { Dog, Breed } from "types";
 
 interface DogsProps {
   dogs: Dog[];
 }
 
-const DetailsBreed: FC<Breed> = ({
-  name,
-  temperament,
-  life_span,
-}) => {
+const DetailsBreed: FC<Breed> = ({ name, temperament, life_span }) => {
   return (
     <Box p="6">
       <Box display="flex" alignItems="baseline">
@@ -98,7 +94,7 @@ const CollectionGrid: FC<DogsProps> = ({ dogs }) => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth", 
+      behavior: "smooth",
     });
   };
   return (
@@ -130,16 +126,16 @@ const CollectionGrid: FC<DogsProps> = ({ dogs }) => {
           ))}
         </Grid>
         {scrollPosition > 500 && (
-            <Box
-              position="fixed"
-              bottom="20px"
-              right={["16px", "84px"]}
-              zIndex={1}
-            >
-              <Button onClick={scrollToTop}>
-                <strong>Back to top</strong>
-              </Button>
-            </Box>
+          <Box
+            position="fixed"
+            bottom="20px"
+            right={["16px", "84px"]}
+            zIndex={1}
+          >
+            <Button onClick={scrollToTop}>
+              <strong>Back to top</strong>
+            </Button>
+          </Box>
         )}
       </VStack>
     </Center>

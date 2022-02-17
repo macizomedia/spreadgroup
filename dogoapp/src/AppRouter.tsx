@@ -3,6 +3,12 @@ import MainGridBreeds from "./components/MainGridBreeds";
 import SingleBreed from "./components/SingleBreed";
 import { Route, Routes } from "react-router-dom";
 import MainGrid from "./components/MainGrid";
+import { Box, Grid } from "@chakra-ui/react";
+import NavegationComp from "components/NavegationComp";
+
+import "@fontsource/koulen/400.css";
+import "@fontsource/raleway/400.css";
+import "@fontsource/open-sans/700.css";
 
 const RouteList = [
   {
@@ -35,11 +41,17 @@ const RouteList = [
 
 const AppRouter = () => {
   return (
-    <Routes>
-      {RouteList.map(({ path, component }) => (
-        <Route key={path} path={path} element={component} />
-      ))}
-    </Routes>
+    <Box textAlign="center" fontSize="xl">
+      <Grid minH="100vh" p={3}>
+        <NavegationComp />
+        <hr></hr>
+        <Routes>
+          {RouteList.map(({ path, component }) => (
+            <Route key={path} path={path} element={component} />
+          ))}
+        </Routes>
+      </Grid>
+    </Box>
   );
 };
 

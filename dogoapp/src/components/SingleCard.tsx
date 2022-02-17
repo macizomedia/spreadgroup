@@ -1,7 +1,7 @@
 import { Box, Heading, Image, Text } from "@chakra-ui/react";
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { Breed } from "../types";
+import { Breed } from "types";
 
 export const SingleCard = ({ id, name, image, bred_for }: Breed) => {
   return (
@@ -26,7 +26,13 @@ export const SingleCard = ({ id, name, image, bred_for }: Breed) => {
         transition: "all 0.3s",
       }}
     >
-      <Image borderWidth="1px" borderRadius="lg" objectFit="scale-down" src={image!.url} alt={name} />
+      <Image
+        borderWidth="1px"
+        borderRadius="lg"
+        objectFit="scale-down"
+        src={image!.url}
+        alt={name}
+      />
       <Box p="6">
         <Heading as="h3" size="md" mt="2">
           {name}

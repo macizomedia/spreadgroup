@@ -10,7 +10,7 @@ import {
   useBreakpointValue,
   Input,
 } from "@chakra-ui/react";
-import { getDogsBreeds } from "../main";
+import { getDogsBreeds } from "main";
 import { SingleCard } from "./SingleCard";
 import { debounceTime, distinctUntilChanged, map } from "rxjs";
 

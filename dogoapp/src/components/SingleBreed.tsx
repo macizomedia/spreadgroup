@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, useParams } from "react-router-dom";
-import { useDogsCollection } from "../hooks/useDogsCollection";
+import { useDogsCollection } from "hooks/useDogsCollection";
 import { motion } from "framer-motion";
 import {
   Box,

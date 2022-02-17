@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, NavLink } from "react-router-dom";
 import { Box, Button, Flex, Spacer } from "@chakra-ui/react";
-import { ColorModeSwitcher } from "../ColorModeSwitcher";
+import { ColorModeSwitcher } from "ColorModeSwitcher";
 import Header from "./Header";
 
 const NavegationComp = () => {

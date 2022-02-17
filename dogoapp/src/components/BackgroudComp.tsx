@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import React from "react";
 import { tap, pluck, map } from "rxjs";
-import { image$ } from "../main";
+import { image$ } from "main";
 
 export const useImage = (breed: string) => {
   const [images, setImages] = React.useState<any>([]);
