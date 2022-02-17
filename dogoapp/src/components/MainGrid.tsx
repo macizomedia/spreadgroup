@@ -21,18 +21,6 @@ const queryDogs = async (page: number, limit: number) => {
   return dogs;
 };
 
-/* const fetchDogs = async (pageSize: number, offset: number): Promise<any> => {
-  return await fetch(
-    `https://api.thedogapi.com/v1/images/search?limit=${pageSize}&page=${offset}&order=Desc`,
-    {
-      method: "get",
-      headers: new Headers({
-        "x-api-key": "17460dc6-8492-40f2-abd5-62c692647c6c",
-      }),
-    }
-  ).then(async (res) => await res.json());
-}; */
-
 const MainGrid: FC = () => {
   // states
   const [dogsTotal, setDogsTotal] = useState<number | undefined>(undefined);
@@ -66,16 +54,8 @@ const MainGrid: FC = () => {
     },
   });
 
-  // fetch dogs
-  // effects
   useEffect(() => {
-    /* fetchDogs(pageSize, offset)
-      .then((dogs) => {
-        console.log(dogs);
-        setDogsTotal(100);
-        setDogs(dogs);
-      })
-      .catch((error) => console.error("App =>", error)); */
+    
     if (currentPage === 1 || pageSize) {
       queryDogs(currentPage, pageSize).then((data) => {
         data.subscribe((dogs) => {

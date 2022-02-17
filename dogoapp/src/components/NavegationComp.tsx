@@ -12,10 +12,10 @@ const NavegationComp = () => {
         <NavLink
           to={
             location.pathname === "/breeds"
-              ? "/dogs"
+              ? "/"
               : location.pathname === "/dogs"
               ? "/breeds"
-              : "/breeds"
+              : "/"
           }
         >
           <Button justifySelf="flex-start" colorScheme="teal" size="lg">
@@ -24,7 +24,7 @@ const NavegationComp = () => {
               : location.pathname === "/dogs"
               ? "Breeds"
               : location.pathname === "/breeds"
-              ? "Back"
+              ? "Home"
               : "Back"}
           </Button>
         </NavLink>
