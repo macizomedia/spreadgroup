@@ -45,7 +45,7 @@ const Card: FC<Dog> = ({ id, url, breeds }) => {
           color: isActive ? "red" : "",
         };
       }}
-      to={breeds.length > 0 ? `/breeds` : "/breeds/" + 1}
+      to={breeds.length > 0 ? `/breeds/` + breeds[0].id : "/breeds"}
       key={id}
     >
       <Box
@@ -64,6 +64,7 @@ const Card: FC<Dog> = ({ id, url, breeds }) => {
         }}
       >
         <Image src={url} alt={id} />
+
         <Box display={`${breeds.length > 0 ? "block" : "none"}`} p="6">
           {breeds.length > 0
             ? breeds.map((breed: Breed) => (
