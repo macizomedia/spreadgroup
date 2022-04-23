@@ -1,5 +1,5 @@
 import React from "react";
-import { getDogsBreeds } from "../main";
+import { getDogsBreeds } from "../api/main";
 import { useObservable } from "observable-hooks";
 
 export const useDogsCollection = () => {

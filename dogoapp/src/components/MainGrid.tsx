@@ -14,7 +14,7 @@ import {
 import { Dog } from "types";
 import CollectionGrid from "./CollectionGrid";
 
-import { getDogs } from "main";
+import { getDogs } from "api/main";
 
 const queryDogs = async (page: number, limit: number) => {
   const dogs = getDogs(`?limit=${limit}&page=${page}&order=Desc`);

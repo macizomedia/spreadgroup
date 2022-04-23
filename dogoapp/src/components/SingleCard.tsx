@@ -1,5 +1,5 @@
-import { Box, Heading, Image, Text } from "@chakra-ui/react";
 import React from "react";
+import { Box, Heading, Image, Text } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 import { Breed } from "types";
 
