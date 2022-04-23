@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import AppKernel from "Appkernel";
+import AppKernel from "./Appkernel";
 
 export const App = () => (
   <div>
