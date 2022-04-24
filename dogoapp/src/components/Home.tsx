@@ -1,4 +1,3 @@
-import { Badge, Button, Flex, HStack, Link } from "@chakra-ui/react";
 import {
   Box,
   Center,
@@ -6,13 +5,14 @@ import {
   Heading,
   Text,
   Stack,
-  Image,
 } from "@chakra-ui/react";
 import pugImagen from "assets/img/Pug.jpg";
 import dogsImage from "assets/img/dogs.jpg";
 import { NavLink } from "react-router-dom";
+import HomeData from 'hooks/useGrapQuery'
 
 export default function Home() {
+  HomeData.then(data => console.log(data))
   return (
     <Center gap={5}>
       <NavLink to="/breeds">

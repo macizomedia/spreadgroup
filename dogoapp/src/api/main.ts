@@ -1,7 +1,6 @@
 import { of } from "rxjs";
 import { fromFetch } from "rxjs/fetch";
 import { createApi } from "unsplash-js";
-/* import nodeFetch from "node-fetch"; */
 import { switchMap, catchError } from "rxjs/operators";
 
 const unsplash = createApi({

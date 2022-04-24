@@ -1,3 +1,4 @@
+import React, { FC, useEffect, useState } from "react";
 import {
   Box,
   Center,
@@ -10,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 
 import { useBreakpointValue } from "@chakra-ui/react";
-import React, { FC, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Dog, Breed } from "types";
 

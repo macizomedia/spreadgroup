@@ -1,6 +1,6 @@
 import { useObservable } from "observable-hooks";
 import React, { useState } from "react";
-import { getDogsBreeds } from "../main";
+import { getDogsBreeds } from "../api/main";
 
 interface Breed {
   weight: Weight;

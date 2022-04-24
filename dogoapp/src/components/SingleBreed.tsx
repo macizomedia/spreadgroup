@@ -13,6 +13,31 @@ import {
   Badge,
 } from "@chakra-ui/react";
 
+const NextButton = () => {
+  return (
+    <Box
+      as="button"
+      onClick={() => {
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: "smooth",
+        });
+      }}
+      borderRadius="50%"
+      bg="teal.500"
+      color="white"
+      fontSize="lg"
+      p={2}
+      m={2}
+      border="none"
+      _hover={{ bg: "teal.600" }}
+    >
+      <Text fontSize="lg">Next</Text>
+    </Box>
+  );
+};
+
 const SingleBreed = () => {
   const { id } = useParams();
   const collection = useDogsCollection();
@@ -42,7 +67,6 @@ const SingleBreed = () => {
         justifyContent: "center",
       }}
     >
-      
       {breed !== undefined ? (
         <Stack>
           <Box
@@ -115,6 +139,7 @@ const SingleBreed = () => {
                 </Text>
               </Box>
             </Box>
+            <NextButton />
           </Center>
         </Stack>
       ) : (
