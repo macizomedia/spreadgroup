@@ -9,11 +9,17 @@ import NavegationComp from "components/NavegationComp";
 import "@fontsource/koulen/400.css";
 import "@fontsource/raleway/400.css";
 import "@fontsource/open-sans/700.css";
+import { AuthProvider } from "providers/AuthProvider";
+import { Signup } from "pages/Auth/Signup";
 
 const RouteList = [
   {
     path: "/",
     component: <Home />,
+  },
+  {
+    path: "/signup",
+    component: <Signup />,
   },
   {
     path: "/dogs",
@@ -43,12 +49,14 @@ const AppRouter = () => {
   return (
     <Box textAlign="center" fontSize="xl">
       <Grid minH="100vh" px="5rem">
-        <NavegationComp />
-        <Routes>
-          {RouteList.map(({ path, component }) => (
-            <Route key={path} path={path} element={component} />
-          ))}
-        </Routes>
+        <AuthProvider>
+          <NavegationComp />
+          <Routes>
+            {RouteList.map(({ path, component }) => (
+              <Route key={path} path={path} element={component} />
+            ))}
+          </Routes>
+        </AuthProvider>
       </Grid>
     </Box>
   );
