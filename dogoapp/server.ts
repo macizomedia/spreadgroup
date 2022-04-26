@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, User } from "@prisma/client";
 
 import helpers from "./helpers";
 
@@ -12,28 +12,50 @@ server.use(express.urlencoded({ extended: true }));
 
 const prisma = new PrismaClient();
 
-async function isUserExist(payload: any) {
-	const { email } = payload;
+/**
+ * 
+ * @param payload
+ * @param res
+ * @param next
+ **/
+
+/** Request Handlers */
+
+const getUsers = async (id: User['id'], callback: (number: number, User: User | null) => void) => {
+	const users = await prisma.user.findUnique({
+		where: {
+			id,
+		},
+	});
+	callback(200, users);
+}
+
+
+async function isUserExist(email: User['email']) {
 	const user = await prisma.user.findUnique({
 		where: {
 			email
 		}
 	});
 	if (user) {
-		throw new Error("User already exist");
+		return true
 	} else {
 		return false;
 	}
 }
 
-export async function addUser(payload: any) {
-	if (await isUserExist(payload)) {
-		throw new Error("User already exist");
+export async function addUser(payload: User) {
+	const { name, email, password } = payload;
+	if (await isUserExist(payload.email)) {
+		return
 	} else {
+		const hashedPassword = await helpers.hashPassword(password);
 		try {
 			const user = await prisma.user.create({
 				data: {
-					...payload
+					name,
+					email,
+					password: hashedPassword,
 				}
 			});
 			return user;
@@ -48,10 +70,27 @@ export async function getAllUsers() {
 	return users;
 }
 
+server.get("/users", async (req, res) => {
+	const users = await getAllUsers();
+	res.status(200).send(users);
+});
+
+server.get("/users/:id", async (req, res) => {
+	const { id } = req.params;
+	await getUsers(+id, (status, data) => {
+		res.status(status).send(data);
+	});
+});
+
 server.post("/signup", async (req, res) => {
 	let user = await addUser(req.body);
-	console.log("from_db", user);
-	res.json({ message: "success", token: "token" });
+	if (user) {
+		res.status(200).send(user);
+	} else {
+		res.status(400).send({
+			message: "User already exist"
+		});
+	}
 });
 
 server.listen(4000, () => {
