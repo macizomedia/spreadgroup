@@ -10,8 +10,7 @@ import { FormError, State } from './auth-types';
 
 export function Signup(): ReactElement {
   const [email, setEmail] = useState<string>('');
-  const [firstName, setFirstName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
+  const [name, setName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [errors, setErrors] = useState<FormError>({});
@@ -26,7 +25,7 @@ export function Signup(): ReactElement {
     const emailFailure = checkField('email', email, setErrors);
     const passwordFailure = checkField('password', password, setErrors);
     const confirmPasswordFailure = checkField('confirmPassword', confirmPassword, setErrors);
-    const firstNameFailure = checkField('firstName', firstName, setErrors);
+    const firstNameFailure = checkField('firstName', name, setErrors);
     return emailFailure || passwordFailure || confirmPasswordFailure || firstNameFailure;
   };
 
@@ -38,8 +37,7 @@ export function Signup(): ReactElement {
       const response = await signupUser({
         email,
         password,
-        firstName,
-        lastName,
+        name
       });
       if (typeof response !== 'boolean' && 'errors' in response) {
         setErrors(response.errors || {});
@@ -64,22 +62,15 @@ export function Signup(): ReactElement {
       <Stack spacing={4} mt={4} maxW="container.sm" width="100%">
         <Flex wrap="wrap">
           <LeftIconInput
-            error={errors.firstName || ''}
+            error={errors.name || ''}
             type="text"
-            placeholder="First Name*"
-            value={firstName}
-            setValue={setFirstName}
+            placeholder="Name*"
+            value={name}
+            setValue={setName}
             icon={<BsFillPersonFill />}
           />
           <Box ml={4} mt={4} />
-          <LeftIconInput
-            error=""
-            type="text"
-            placeholder="Last Name"
-            value={lastName}
-            setValue={setLastName}
-            icon={<BsFillPersonFill />}
-          />
+
         </Flex>
         <LeftIconInput
           error={errors.email || ''}

@@ -35,14 +35,13 @@ export async function loginService(
 
 export async function signupService(user: User): Promise<Token | ServerError> {
     try {
-        const json: { message: string, token: string } = await http.post('signup', { json: { name: user.firstName, email: user.email, password: user.password } }).json();
+        const json: { message: string, token: string } = await http.post('signup', { json: user }).json();
         if (json.token) {
             return json;
         }
         return { message: json.message };
     } catch (error) {
         return error as ServerError;
-
     }
 }
 
